@@ -55,7 +55,7 @@ export function Navbar() {
               <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: "easeInOut" }}>
                 <Image
                   src="/logo.png"           // change to your actual file name
-                  alt="EcoSphere logo"
+                  alt="TerraFortis Africa logo"
                   width={32}
                   height={32}
                   className="h-8 w-8"
@@ -63,7 +63,7 @@ export function Navbar() {
                 />
               </motion.div>
               <span className="text-xl font-serif font-bold text-foreground group-hover:text-secondary transition-colors">
-                EcoSphere
+                TerraFortis Africa
               </span>
             </Link>
 

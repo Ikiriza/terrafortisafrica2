@@ -75,7 +75,7 @@ export default function AboutPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-balance mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              About EcoSphere
+              About TerraFortis Africa
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground text-pretty leading-relaxed">
               We're on a mission to revolutionize how businesses approach sustainability, creating a future where profit

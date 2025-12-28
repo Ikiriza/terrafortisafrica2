@@ -137,7 +137,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Why Choose EcoSphere</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Why Choose TerraFortis Africa</h2>
             <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
               We combine innovation with sustainability to deliver solutions that make a real difference.
             </p>

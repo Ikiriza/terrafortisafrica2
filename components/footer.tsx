@@ -12,13 +12,13 @@ export function Footer() {
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.png"          // change to your actual file name
-                alt="EcoSphere logo"
+                alt="TerraFortis Africa logo"
                 width={24}
                 height={24}
                 className="h-6 w-6"
                 priority
               />
-              <span className="text-xl font-serif font-bold">EcoSphere</span>
+              <span className="text-xl font-serif font-bold">TerraFortis Africa</span>
             </div>
             <p className="text-sm text-primary-foreground/80 leading-relaxed">
               Leading the way in sustainable innovation for a better tomorrow.
@@ -75,7 +75,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-accent" />
-                hello@ecosphere.com
+                hello@terrafortisafrica.com
               </li>
               <li className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <Phone className="h-4 w-4 text-accent" />
@@ -91,7 +91,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-primary-foreground/20 text-center">
           <p className="text-sm text-primary-foreground/60">
-            © {new Date().getFullYear()} EcoSphere. All rights reserved.
+            © {new Date().getFullYear()} TerraFortisAfrica. All rights reserved.
           </p>
         </div>
       </div>

@@ -17,8 +17,8 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    content: "hello@ecosphere.com",
-    link: "mailto:hello@ecosphere.com",
+    content: "hello@terrafortisafrica.com",
+    link: "mailto:hello@terrafortisafrica.com",
   },
   {
     icon: Phone,

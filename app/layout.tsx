@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "EcoSphere - Sustainable Innovation",
+  title: "TerraFortis Africa - Sustainable Innovation",
   description: "Leading the way in eco-friendly solutions for a sustainable future",
   generator: "v0.app",
   icons: {
