@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import {
   motion,
   useAnimation,
@@ -164,9 +164,7 @@ function InteractiveValueCard({ title, description, onHoverChange }: ValueCardPr
   return (
     <motion.div
       ref={ref}
-      onMouseMove={(e) => {
-        onMove(e)
-      }}
+      onMouseMove={(e) => onMove(e)}
       onMouseEnter={() => {
         onEnter()
         onHoverChange?.(true)
@@ -179,27 +177,13 @@ function InteractiveValueCard({ title, description, onHoverChange }: ValueCardPr
       className="min-w-[360px] max-w-[360px] h-[220px]"
     >
       <Card className="relative h-full border-border/70 shadow-sm">
-        <motion.div
-          aria-hidden="true"
-          style={{ backgroundImage: glow }}
-          className="pointer-events-none absolute inset-0 rounded-xl opacity-100"
-        />
-        <motion.div
-          aria-hidden="true"
-          style={{ backgroundImage: borderGlow }}
-          className="pointer-events-none absolute -inset-px rounded-xl opacity-100"
-        />
-        <CardContent
-          className="relative h-full p-6"
-          style={{ transform: "translateZ(24px)", transformStyle: "preserve-3d" }}
-        >
+        <motion.div aria-hidden="true" style={{ backgroundImage: glow }} className="pointer-events-none absolute inset-0 rounded-xl opacity-100" />
+        <motion.div aria-hidden="true" style={{ backgroundImage: borderGlow }} className="pointer-events-none absolute -inset-px rounded-xl opacity-100" />
+        <CardContent className="relative h-full p-6" style={{ transform: "translateZ(24px)", transformStyle: "preserve-3d" }}>
           <h3 className="text-lg font-serif font-semibold mb-2" style={{ transform: "translateZ(18px)" }}>
             {title}
           </h3>
-          <p
-            className="text-muted-foreground leading-relaxed text-sm line-clamp-[8]"
-            style={{ transform: "translateZ(14px)" }}
-          >
+          <p className="text-muted-foreground leading-relaxed text-sm line-clamp-[8]" style={{ transform: "translateZ(14px)" }}>
             {description}
           </p>
         </CardContent>
@@ -216,9 +200,7 @@ function MarqueeRow({
   onAnyHoverChange: (hovering: boolean) => void
 }) {
   const controls = useAnimation()
-  const containerRef = useRef<HTMLDivElement>(null)
 
-  // Start scrolling animation
   useEffect(() => {
     controls.start({
       x: reverse ? ["-50%", "0%"] : ["0%", "-50%"],
@@ -238,10 +220,10 @@ function MarqueeRow({
     }
   }
 
-  const items = [...coreValues, ...coreValues] // duplicate for seamless loop
+  const items = [...coreValues, ...coreValues]
 
   return (
-    <div ref={containerRef} className="overflow-hidden">
+    <div className="overflow-hidden">
       <motion.div className="flex gap-6" animate={controls}>
         {items.map((cv, idx) => (
           <InteractiveValueCard
@@ -258,13 +240,13 @@ function MarqueeRow({
 
 export default function AboutPage() {
   const dragAreaRef = useRef<HTMLDivElement>(null)
-  const [, setMarqueePaused] = useState(false)
 
   return (
     <div className="min-h-screen">
       <AnimatedBackground />
       <Navbar />
 
+      {/* Hero */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -283,6 +265,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* About TFA cards — equal height */}
       <section className="py-14 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={dragAreaRef} className="relative">
@@ -297,22 +280,17 @@ export default function AboutPage() {
                   className="h-full"
                 >
                   <motion.div
-                    drag
-                    dragConstraints={dragAreaRef}
-                    dragElastic={0.2}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    transition={{ type: "spring", stiffness: 250, damping: 20 }}
                     className="h-full"
                   >
                     <Card className="h-full border-border/70 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-sm">
-                      <CardContent className="p-6 h-full">
-                        <div className="flex h-full flex-col">
-                          <h3 className="text-xl font-serif font-semibold text-foreground mb-3">{card.title}</h3>
-                          <div className="text-base text-muted-foreground leading-relaxed flex-1 min-h-[140px]">
-                            {card.content}
-                          </div>
-                          <div className="mt-4" />
+                      <CardContent className="p-6 h-full flex flex-col">
+                        <h3 className="text-xl font-serif font-semibold text-foreground mb-3">{card.title}</h3>
+                        <div className="text-base text-muted-foreground leading-relaxed flex-1">
+                          {card.content}
                         </div>
+                        <div className="mt-4" />
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -323,6 +301,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Mission & Vision */}
       <section className="py-14 md:py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -339,12 +318,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <Card className="h-full border-border/70 shadow-sm">
                 <CardContent className="p-8">
                   <div className="flex items-start gap-4">
@@ -354,9 +328,8 @@ export default function AboutPage() {
                     <div>
                       <h3 className="text-2xl font-serif font-semibold mb-3">Our Mission</h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        To enhance agricultural productivity, sustainable land management, and environmental conservation
-                        through promotion of Conservation Agriculture (CA) principles and practices and Sustainable
-                        Agricultural Mechanization (SAM) technologies in Africa.
+                        To enhance agricultural productivity, sustainable land management, and environmental conservation through promotion of
+                        Conservation Agriculture (CA) principles and practices and Sustainable Agricultural Mechanization (SAM) technologies in Africa.
                       </p>
                     </div>
                   </div>
@@ -364,12 +337,7 @@ export default function AboutPage() {
               </Card>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
               <Card className="h-full border-border/70 shadow-sm">
                 <CardContent className="p-8">
                   <div className="flex items-start gap-4">
@@ -379,8 +347,8 @@ export default function AboutPage() {
                     <div>
                       <h3 className="text-2xl font-serif font-semibold mb-3">Our Vision</h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        To be a premier consultancy and development firm of excellence in promoting innovative,
-                        sustainable, and green solutions for improved livelihoods and wealth creation in rural Africa.
+                        To be a premier consultancy and development firm of excellence in promoting innovative, sustainable, and green solutions for
+                        improved livelihoods and wealth creation in rural Africa.
                       </p>
                     </div>
                   </div>
@@ -391,7 +359,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Core Values: equal-sized, cursor-interactive cards in marquee that pauses on hover */}
+      {/* Core Values marquee with interactive cards (pause on hover) */}
       <section className="py-14 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -402,28 +370,17 @@ export default function AboutPage() {
             className="text-center max-w-4xl mx-auto mb-10"
           >
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Our Core Values</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              The principles that guide our decisions and actions across Africa.
-            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed">The principles that guide our decisions and actions across Africa.</p>
           </motion.div>
 
           <div className="space-y-6">
-            <MarqueeRow
-              reverse={false}
-              onAnyHoverChange={(paused) => {
-                setMarqueePaused(paused)
-              }}
-            />
-            <MarqueeRow
-              reverse
-              onAnyHoverChange={(paused) => {
-                setMarqueePaused(paused)
-              }}
-            />
+            <MarqueeRow reverse={false} onAnyHoverChange={() => {}} />
+            <MarqueeRow reverse onAnyHoverChange={() => {}} />
           </div>
         </div>
       </section>
 
+      {/* Stats */}
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -445,6 +402,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Team */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -455,9 +413,7 @@ export default function AboutPage() {
             className="text-center max-w-3xl mx-auto mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Meet Our Leadership</h2>
-            <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
-              The passionate people driving our mission forward.
-            </p>
+            <p className="text-lg text-muted-foreground text-pretty leading-relaxed">The passionate people driving our mission forward.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -478,9 +434,7 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h3 className="text-xl font-serif font-semibold mb-1 group-hover:text-secondary transition-colors">
-                  {member.name}
-                </h3>
+                <h3 className="text-xl font-serif font-semibold mb-1 group-hover:text-secondary transition-colors">{member.name}</h3>
                 <p className="text-muted-foreground">{member.role}</p>
               </motion.div>
             ))}
