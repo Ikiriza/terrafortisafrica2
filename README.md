@@ -44,7 +44,7 @@ Note: If you see a “workspace root” warning on Windows, run commands from th
 ## Contact
 
 - Email: hello@terrafortisafrica.com
-- Website: https://terrafortisafrica.com (update when deployed)
+- Website: https://www.terrafortisafrica.org (update when deployed)
 - Social profiles: Add links here if desired.
 
 ---
