@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from "framer-motion"
 import { Menu, X, Sun, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
@@ -16,6 +16,67 @@ const navItems = [
   { name: "Contact", href: "/contact" },
 ]
 
+type InteractiveButtonProps = {
+  children: React.ReactNode
+  className?: string
+  paddingClassName?: string
+}
+
+function InteractiveButton({ children, className, paddingClassName = "" }: InteractiveButtonProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const px = useMotionValue(0.5)
+  const py = useMotionValue(0.5)
+  const rx = useSpring(useTransform(py, [0, 1], [8, -8]), { stiffness: 220, damping: 20, mass: 0.5 })
+  const ry = useSpring(useTransform(px, [0, 1], [-10, 10]), { stiffness: 220, damping: 20, mass: 0.5 })
+  const scale = useSpring(1, { stiffness: 220, damping: 20, mass: 0.5 })
+
+  const gx = useTransform(px, (v) => `calc(${(v * 100).toFixed(2)}%)`)
+  const gy = useTransform(py, (v) => `calc(${(v * 100).toFixed(2)}%)`)
+  const glow = useMotionTemplate`radial-gradient(120px circle at ${gx} ${gy}, rgba(255,255,255,0.12), transparent 60%)`
+  const borderGlow = useMotionTemplate`radial-gradient(200px circle at ${gx} ${gy}, rgba(34,197,94,0.35), transparent 70%)`
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    px.set((e.clientX - r.left) / r.width)
+    py.set((e.clientY - r.top) / r.height)
+  }
+  function onEnter() {
+    scale.set(1.02)
+  }
+  function onLeave() {
+    scale.set(1)
+    px.set(0.5)
+    py.set(0.5)
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      style={{ rotateX: rx, rotateY: ry, scale, transformStyle: "preserve-3d", willChange: "transform" }}
+      className={`relative ${paddingClassName}`}
+    >
+      <motion.div
+        aria-hidden="true"
+        style={{ backgroundImage: glow }}
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+      />
+      <motion.div
+        aria-hidden="true"
+        style={{ backgroundImage: borderGlow }}
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+      />
+      <div className="relative" style={{ transform: "translateZ(24px)", transformStyle: "preserve-3d" }}>
+        <div className={`group ${className || ""}`}>{children}</div>
+      </div>
+    </motion.div>
+  )
+}
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -25,9 +86,7 @@ export function Navbar() {
 
   useEffect(() => {
     setMounted(true)
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -50,15 +109,15 @@ export function Navbar() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            {/* Logo (increased size) */}
+            <Link href="/" className="flex items-center gap-3 group">
               <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: "easeInOut" }}>
                 <Image
-                  src="/logo.png"           // change to your actual file name
+                  src="/logo.png"
                   alt="TerraFortis Africa logo"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
+                  width={50}
+                  height={50}
+                  className="h-15 w-24"
                   priority
                 />
               </motion.div>
@@ -97,46 +156,52 @@ export function Navbar() {
 
             {/* Right Section */}
             <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className="rounded-full"
-                aria-label="Toggle theme"
-              >
-                <motion.div
-                  initial={{ scale: 0.5, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.3 }}
-                  key={theme}
+              {/* Theme Toggle with interactive effect */}
+              <InteractiveButton paddingClassName="p-1 rounded-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="rounded-full"
+                  aria-label="Toggle theme"
                 >
-                  {theme === "dark" ? (
-                    <Sun className="h-5 w-5 text-accent" />
-                  ) : (
-                    <Moon className="h-5 w-5 text-primary" />
-                  )}
-                </motion.div>
-              </Button>
+                  <motion.div
+                    initial={{ scale: 0.5, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.3 }}
+                    key={theme}
+                  >
+                    {theme === "dark" ? (
+                      <Sun className="h-5 w-5 text-accent" />
+                    ) : (
+                      <Moon className="h-5 w-5 text-primary" />
+                    )}
+                  </motion.div>
+                </Button>
+              </InteractiveButton>
 
-              {/* CTA Button - Desktop */}
-              <Button
-                asChild
-                className="hidden md:flex bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground"
-              >
-                <Link href="/contact">Get Started</Link>
-              </Button>
+              {/* CTA Button - Desktop with interactive effect */}
+              <InteractiveButton>
+                <Button
+                  asChild
+                  className="hidden md:flex bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground"
+                >
+                  <Link href="/contact">Get Started</Link>
+                </Button>
+              </InteractiveButton>
 
-              {/* Mobile Menu Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden rounded-full"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
+              {/* Mobile Menu Toggle with interactive effect */}
+              <InteractiveButton paddingClassName="rounded-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden rounded-full"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  aria-label="Toggle menu"
+                >
+                  {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </Button>
+              </InteractiveButton>
             </div>
           </div>
         </div>

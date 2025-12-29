@@ -13,9 +13,9 @@ export function Footer() {
               <Image
                 src="/logo.png"          // change to your actual file name
                 alt="TerraFortis Africa logo"
-                width={24}
-                height={24}
-                className="h-6 w-6"
+                width={50}
+                height={50}
+                className="h-15 w-24"
                 priority
               />
               <span className="text-xl font-serif font-bold">TerraFortis Africa</span>
