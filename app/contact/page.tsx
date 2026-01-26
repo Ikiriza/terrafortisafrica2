@@ -17,19 +17,19 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    content: "hello@terrafortisafrica.com",
-    link: "mailto:hello@terrafortisafrica.com",
+    content: "terrafortisafrica@terrafortisafrica.org",
+    link: "mailto:terrafortisafrica@terrafortisafrica.org",
   },
   {
     icon: Phone,
     title: "Phone",
-    content: "+1 (555) 123-4567",
+    content: "+256",
     link: "tel:+15551234567",
   },
   {
     icon: MapPin,
     title: "Office",
-    content: "123 Green Street, San Francisco, CA 94102",
+    content: "Kampala",
     link: "https://maps.google.com",
   },
 ]

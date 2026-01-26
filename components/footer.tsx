@@ -21,7 +21,7 @@ export function Footer() {
               <span className="text-xl font-serif font-bold">TerraFortis Africa</span>
             </div>
             <p className="text-sm text-primary-foreground/80 leading-relaxed">
-              Leading the way in sustainable innovation for a better tomorrow.
+              For Food, Agriculture and Environment.
             </p>
           </div>
 
@@ -75,15 +75,15 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-accent" />
-                hello@terrafortisafrica.com
+                terrafortisafrica@terrafortisafrica.org
               </li>
               <li className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <Phone className="h-4 w-4 text-accent" />
-                +1 (555) 123-4567
+                +256
               </li>
               <li className="flex items-center gap-2 text-sm text-primary-foreground/80">
                 <MapPin className="h-4 w-4 text-accent" />
-                San Francisco, CA
+                Kampala
               </li>
             </ul>
           </div>

@@ -1,15 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import {
-  motion,
-  useAnimation,
-  useMotionTemplate,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion"
-import { Target, Eye, TrendingUp, Users, Award } from "lucide-react"
+import { motion } from "framer-motion"
+import { Target, TrendingUp, Users, Award } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -29,218 +21,7 @@ const team = [
   { name: "David Kim", role: "Director of Operations", image: "/professional-man-operations.png" },
 ]
 
-const aboutCards = [
-  {
-    title: "About TerraFortis Africa (TFA)",
-    content: (
-      <p>
-        TerraFortis Africa (TFA) provides innovative green solutions to alleviate hunger, multidimensional poverty,
-        social inequality, and the impacts of climate change across Africa. We deliver ethical, community-led, market-based,
-        and enterprise-focused consultancy and development services to governments, donors, global and regional enterprises,
-        and bilateral and multilateral organizations in the food, agriculture, and environmental sectors.
-      </p>
-    ),
-  },
-  {
-    title: "Sustainable Access",
-    content: (
-      <ul className="list-disc pl-5 space-y-2">
-        <li>Nutritious food throughout their lives</li>
-        <li>Decent incomes and employment</li>
-        <li>Thriving natural resources</li>
-      </ul>
-    ),
-  },
-  {
-    title: "Our Goal and Focus",
-    content: (
-      <p>
-        Our goal is food security for all—sustainable access to sufficient, high‑quality food for active, healthy lives.
-        Our primary focus is Sub‑Saharan Africa, where hunger and poverty are acute despite vast potential. We believe
-        equitable economic development is essential to ending poverty.
-      </p>
-    ),
-  },
-  {
-    title: "Core Areas of Focus",
-    content: (
-      <ul className="list-disc pl-5 space-y-2">
-        <li>Research & Development for green technology innovation</li>
-        <li>Resilient food systems in lush, green landscapes</li>
-        <li>Sustainable Market Systems Development (MSD)</li>
-        <li>Climate change impact and adaptation</li>
-      </ul>
-    ),
-  },
-  {
-    title: "Partnerships and Resilience",
-    content: (
-      <p>
-        Together with our donors, partners, and collaborators, we are building food systems that can withstand biotic and
-        abiotic shocks—sustainably and at scale.
-      </p>
-    ),
-  },
-  {
-    title: "Our Aspiration",
-    content: (
-      <p>
-        TFA aspires to be the Center of Excellence for African farmer‑led systems, forming symbiotic partnerships to
-        address challenges across African agriculture. We serve as a one‑stop center accelerating the development of
-        functional, inclusive, and resilient food systems.
-      </p>
-    ),
-  },
-]
-
-const coreValues = [
-  {
-    title: "Performance and Service Orientation",
-    description:
-      "Focused on quality service delivery, innovation, and adherence to ethics and standards to meet and exceed clients’ expectations in productivity, sustainable land management, and environmental conservation.",
-  },
-  {
-    title: "Partnership, Networking and Collaboration",
-    description:
-      "Pursuing productive partnerships with clear roles, responsibilities, governance, and supportive mechanisms to foster effective collaboration and synergies aligned to TFA’s mission.",
-  },
-  {
-    title: "Knowledge and Information Management",
-    description:
-      "Nurturing a strong culture of generating, sharing, and applying development knowledge for improved productivity, sustainable natural resource management, environmental conservation, and climate action.",
-  },
-  {
-    title: "Regionality and Environmental Concern",
-    description:
-      "Committed to African-led scale and scope, ensuring availability of regenerative agriculture technologies, products, and services while safeguarding environmental quality and responding to climate challenges.",
-  },
-  {
-    title: "Integrity, Transparency and Accountability",
-    description:
-      "Upholding honesty, fairness, and professionalism, and ensuring efficient use of entrusted resources in a transparent, accountable, and cost‑effective manner.",
-  },
-]
-
-function useTiltGlow() {
-  const ref = useRef<HTMLDivElement>(null)
-  const px = useMotionValue(0.5)
-  const py = useMotionValue(0.5)
-  const rx = useSpring(useTransform(py, [0, 1], [8, -8]), { stiffness: 220, damping: 20, mass: 0.5 })
-  const ry = useSpring(useTransform(px, [0, 1], [-10, 10]), { stiffness: 220, damping: 20, mass: 0.5 })
-  const scale = useSpring(1, { stiffness: 220, damping: 20, mass: 0.5 })
-  const gx = useTransform(px, (v) => `calc(${(v * 100).toFixed(2)}%)`)
-  const gy = useTransform(py, (v) => `calc(${(v * 100).toFixed(2)}%)`)
-  const glow = useMotionTemplate`radial-gradient(160px circle at ${gx} ${gy}, rgba(255,255,255,0.12), transparent 60%)`
-  const borderGlow = useMotionTemplate`radial-gradient(240px circle at ${gx} ${gy}, rgba(34,197,94,0.35), transparent 70%)`
-
-  function onMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    px.set((e.clientX - r.left) / r.width)
-    py.set((e.clientY - r.top) / r.height)
-  }
-  function onEnter() {
-    scale.set(1.02)
-  }
-  function onLeave() {
-    scale.set(1)
-    px.set(0.5)
-    py.set(0.5)
-  }
-
-  return { ref, rx, ry, scale, glow, borderGlow, onMove, onEnter, onLeave }
-}
-
-type ValueCardProps = {
-  title: string
-  description: string
-  onHoverChange?: (hovering: boolean) => void
-}
-
-function InteractiveValueCard({ title, description, onHoverChange }: ValueCardProps) {
-  const { ref, rx, ry, scale, glow, borderGlow, onMove, onEnter, onLeave } = useTiltGlow()
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={(e) => onMove(e)}
-      onMouseEnter={() => {
-        onEnter()
-        onHoverChange?.(true)
-      }}
-      onMouseLeave={() => {
-        onLeave()
-        onHoverChange?.(false)
-      }}
-      style={{ rotateX: rx, rotateY: ry, scale, transformStyle: "preserve-3d", willChange: "transform" }}
-      className="min-w-[360px] max-w-[360px] h-[220px]"
-    >
-      <Card className="relative h-full border-border/70 shadow-sm">
-        <motion.div aria-hidden="true" style={{ backgroundImage: glow }} className="pointer-events-none absolute inset-0 rounded-xl opacity-100" />
-        <motion.div aria-hidden="true" style={{ backgroundImage: borderGlow }} className="pointer-events-none absolute -inset-px rounded-xl opacity-100" />
-        <CardContent className="relative h-full p-6" style={{ transform: "translateZ(24px)", transformStyle: "preserve-3d" }}>
-          <h3 className="text-lg font-serif font-semibold mb-2" style={{ transform: "translateZ(18px)" }}>
-            {title}
-          </h3>
-          <p className="text-muted-foreground leading-relaxed text-sm line-clamp-[8]" style={{ transform: "translateZ(14px)" }}>
-            {description}
-          </p>
-        </CardContent>
-      </Card>
-    </motion.div>
-  )
-}
-
-function MarqueeRow({
-  reverse = false,
-  onAnyHoverChange,
-}: {
-  reverse?: boolean
-  onAnyHoverChange: (hovering: boolean) => void
-}) {
-  const controls = useAnimation()
-
-  useEffect(() => {
-    controls.start({
-      x: reverse ? ["-50%", "0%"] : ["0%", "-50%"],
-      transition: { duration: 40, repeat: Infinity, ease: "linear" },
-    })
-  }, [controls, reverse])
-
-  function handleHoverChange(hovering: boolean) {
-    onAnyHoverChange(hovering)
-    if (hovering) {
-      controls.stop()
-    } else {
-      controls.start({
-        x: reverse ? ["-50%", "0%"] : ["0%", "-50%"],
-        transition: { duration: 40, repeat: Infinity, ease: "linear" },
-      })
-    }
-  }
-
-  const items = [...coreValues, ...coreValues]
-
-  return (
-    <div className="overflow-hidden">
-      <motion.div className="flex gap-6" animate={controls}>
-        {items.map((cv, idx) => (
-          <InteractiveValueCard
-            key={`${cv.title}-${idx}`}
-            title={cv.title}
-            description={cv.description}
-            onHoverChange={handleHoverChange}
-          />
-        ))}
-      </motion.div>
-    </div>
-  )
-}
-
 export default function AboutPage() {
-  const dragAreaRef = useRef<HTMLDivElement>(null)
-
   return (
     <div className="min-h-screen">
       <AnimatedBackground />
@@ -265,117 +46,89 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* About TFA cards — equal height */}
+      {/* Vision, Mission & Core Values (panel style to match the reference) */}
       <section className="py-14 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div ref={dragAreaRef} className="relative">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {aboutCards.map((card, idx) => (
-                <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.06 }}
-                  className="h-full"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    transition={{ type: "spring", stiffness: 250, damping: 20 }}
-                    className="h-full"
-                  >
-                    <Card className="h-full border-border/70 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-sm">
-                      <CardContent className="p-6 h-full flex flex-col">
-                        <h3 className="text-xl font-serif font-semibold text-foreground mb-3">{card.title}</h3>
-                        <div className="text-base text-muted-foreground leading-relaxed flex-1">
-                          {card.content}
-                        </div>
-                        <div className="mt-4" />
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </motion.div>
-              ))}
+          <div className="rounded-2xl bg-card border shadow-sm p-6 md:p-10">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-foreground mb-10">
+              Vision, Mission & Core Values
+            </h2>
+
+            {/* Vision */}
+            <div className="space-y-4 mb-10">
+              <h3 className="text-2xl font-semibold text-foreground">Vision</h3>
+              <div className="rounded-md border-4 border-yellow-300 bg-brown-50 p-4 md:p-6">
+                <p className="text-center font-medium text-foreground">
+                  To be a premier consultancy and development firm of excellence in promoting innovative, sustainable, and
+                  green solutions for improved livelihoods and wealth creation in rural Africa.
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section className="py-14 md:py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Mission & Vision</h2>
-            <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
-              Clear purpose and direction guiding our impact in Africa’s agrifood and environmental systems.
-            </p>
-          </motion.div>
+            {/* Mission */}
+            <div className="space-y-3 mb-10">
+              <h3 className="text-2xl font-semibold text-foreground">Mission Statement</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                To enhance agricultural productivity, sustainable land management, and environmental conservation through
+                promotion of Conservation Agriculture (CA) principles and practices and Sustainable Agricultural
+                Mechanization (SAM) technologies in Africa.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <Card className="h-full border-border/70 shadow-sm">
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                      <Target className="h-6 w-6 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-serif font-semibold mb-3">Our Mission</h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        To enhance agricultural productivity, sustainable land management, and environmental conservation through promotion of
-                        Conservation Agriculture (CA) principles and practices and Sustainable Agricultural Mechanization (SAM) technologies in Africa.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            {/* Core Values */}
+            <div>
+              <h3 className="text-2xl font-semibold text-foreground mb-3">Core Values</h3>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The decisions and actions in TFA are consistently based on a set of clear principles outlined here as our core values. These are:
+              </p>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
-              <Card className="h-full border-border/70 shadow-sm">
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                      <Eye className="h-6 w-6 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-serif font-semibold mb-3">Our Vision</h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        To be a premier consultancy and development firm of excellence in promoting innovative, sustainable, and green solutions for
-                        improved livelihoods and wealth creation in rural Africa.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+              <ol className="list-decimal pl-6 space-y-5">
+                <li>
+                  <p className="italic underline font-medium">Performance and service orientation:</p>
+                  <p className="text-muted-foreground mt-1 leading-relaxed">
+                    TFA believes that the stakes in improving productivity, sustainable land management and environmental
+                    conservation are extremely high and will, therefore, remain focused on quality service delivery,
+                    innovativeness and adherent to ethics and standards so as to meet and exceed client’s expectation.
+                  </p>
+                </li>
 
-      {/* Core Values marquee with interactive cards (pause on hover) */}
-      <section className="py-14 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto mb-10"
-          >
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Our Core Values</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">The principles that guide our decisions and actions across Africa.</p>
-          </motion.div>
+                <li>
+                  <p className="italic underline font-medium">Partnership, networking and collaboration:</p>
+                  <p className="text-muted-foreground mt-1 leading-relaxed">
+                    TFA will pursue productive and beneficial partnerships and strategic alliances with clearly defined roles,
+                    responsibilities, governance and supportive mechanisms so as to ensure effective collaboration and
+                    synergies that have a direct bearing to the Network’s mission.
+                  </p>
+                </li>
 
-          <div className="space-y-6">
-            <MarqueeRow reverse={false} onAnyHoverChange={() => {}} />
-            <MarqueeRow reverse onAnyHoverChange={() => {}} />
+                <li>
+                  <p className="italic underline font-medium">Knowledge and information management:</p>
+                  <p className="text-muted-foreground mt-1 leading-relaxed">
+                    TFA is committed to nurturing a strong culture in the generation, sharing and application of development
+                    knowledge and information for promoting improved productivity, sustainable natural resource management,
+                    environmental conservation and adaptation and mitigation to climate change challenges in Africa and beyond.
+                  </p>
+                </li>
+
+                <li>
+                  <p className="italic underline font-medium">Regionality and environmental concern:</p>
+                  <p className="text-muted-foreground mt-1 leading-relaxed">
+                    TFA is an African organization committed to the achievement of economies of scale and scope while ensuring
+                    optimal availability of Regenerative agriculture technologies, products and services while maintaining the
+                    quality of environment and responding to the challenges of climate change.
+                  </p>
+                </li>
+
+                <li>
+                  <p className="italic underline font-medium">Integrity, transparency and accountability:</p>
+                  <p className="text-muted-foreground mt-1 leading-relaxed">
+                    TFA upholds virtues of integrity through honesty, fairness and professionalism in all its operations while
+                    remaining committed to effective and efficient utilization of all resources entrusted to it in the most
+                    transparent, accountable and cost-effective manner.
+                  </p>
+                </li>
+              </ol>
+            </div>
           </div>
         </div>
       </section>
@@ -413,7 +166,9 @@ export default function AboutPage() {
             className="text-center max-w-3xl mx-auto mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-balance mb-4">Meet Our Leadership</h2>
-            <p className="text-lg text-muted-foreground text-pretty leading-relaxed">The passionate people driving our mission forward.</p>
+            <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+              The passionate people driving our mission forward.
+            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -434,7 +189,9 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h3 className="text-xl font-serif font-semibold mb-1 group-hover:text-secondary transition-colors">{member.name}</h3>
+                <h3 className="text-xl font-serif font-semibold mb-1 group-hover:text-secondary transition-colors">
+                  {member.name}
+                </h3>
                 <p className="text-muted-foreground">{member.role}</p>
               </motion.div>
             ))}
