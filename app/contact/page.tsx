@@ -23,7 +23,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    content: "+256",
+    content: "+256 752400721",
     link: "tel:+15551234567",
   },
   {
