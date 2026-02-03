@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from "framer-motion"
-import { Menu, X, Sun, Moon } from "lucide-react"
+import { Menu, X, Sun, Moon, Mail, Phone, MapPin, Linkedin, Facebook, Instagram, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import Image from "next/image"
@@ -15,6 +15,20 @@ const navItems = [
   { name: "Portfolio", href: "/portfolio" },
   { name: "Contact", href: "/contact" },
 ]
+
+const contactLinks = [
+  { icon: Mail, label: "hello@terrafortisafrica.com", href: "mailto:hello@terrafortisafrica.com" },
+  { icon: Phone, label: "+1 (555) 123-4567", href: "tel:+15551234567" },
+  { icon: MapPin, label: "San Francisco, CA", href: "https://maps.google.com/?q=TerraFortis%20Africa" },
+]
+
+const socialLinks = [
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/terrafortisafrica" },
+  { icon: Twitter, label: "X / Twitter", href: "https://twitter.com/terrafortisafrica" },
+  { icon: Facebook, label: "Facebook", href: "https://facebook.com/terrafortisafrica" },
+  { icon: Instagram, label: "Instagram", href: "https://instagram.com/terrafortisafrica" },
+]
+
 
 type InteractiveButtonProps = {
   children: React.ReactNode
@@ -77,6 +91,47 @@ function InteractiveButton({ children, className, paddingClassName = "" }: Inter
   )
 }
 
+function TopBar() {
+  return (
+    <div className="bg-gradient-to-r from-primary via-secondary to-primary text-primary-foreground text-xs sm:text-sm">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          {contactLinks.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              target={item.href.startsWith("http") ? "_blank" : undefined}
+              rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="flex items-center gap-2 hover:text-accent transition-colors"
+            >
+              <item.icon className="h-4 w-4" />
+              <span className="font-medium">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="hidden lg:inline text-primary-foreground/80">Follow us</span>
+          <div className="flex items-center gap-2">
+            {socialLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={item.label}
+                className="h-9 w-9 flex items-center justify-center rounded-full border border-primary-foreground/20 bg-white/10 backdrop-blur-sm hover:bg-primary-foreground/15 hover:border-primary-foreground/40 transition-colors"
+              >
+                <item.icon className="h-4 w-4" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -103,10 +158,24 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white dark:bg-neutral-900 ${
+          isScrolled ? "shadow-sm border-b border-border/70" : "border-b border-transparent"
         }`}
       >
+        <AnimatePresence initial={false}>
+          {!isScrolled && (
+            <motion.div
+              key="topbar"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden"
+            >
+              <TopBar />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo (increased size) */}

@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AnimatedBackground } from "@/components/animated-background"
+import { SimpleHero } from "@/components/simple-hero"
 
 const stats = [
   { icon: Users, value: "150+", label: "Team Members" },
@@ -246,24 +247,11 @@ export default function AboutPage() {
       <AnimatedBackground />
       <Navbar />
 
-      {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-balance mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              About TerraFortis Africa
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground text-pretty leading-relaxed">
-              For food, agriculture, and environment.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <SimpleHero
+        title="About TerraFortis Africa"
+        subtitle="For food, agriculture, and environment."
+        backgroundImage="/forest-trees-nature-carbon-offset.jpg"
+      />
 
       {/* About TFA cards — equal height */}
       <section className="py-14 md:py-20">
