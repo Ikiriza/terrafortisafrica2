@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AnimatedBackground } from "@/components/animated-background"
+import { SimpleHero } from "@/components/simple-hero"
 
 const contactInfo = [
   {
@@ -87,25 +88,11 @@ export default function ContactPage() {
       <AnimatedBackground />
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-balance mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Get in Touch
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground text-pretty leading-relaxed">
-              Ready to start your sustainability journey? We'd love to hear from you. Let's create something amazing
-              together.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <SimpleHero
+        title="Get in Touch"
+        subtitle="Ready to start your sustainability journey? We'd love to hear from you. Let's create something amazing together."
+        backgroundImage="/modern-green-office-building-sustainable.jpg"
+      />
 
       {/* Contact Section */}
       <section className="py-20 md:py-32">
