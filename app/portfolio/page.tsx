@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AnimatedBackground } from "@/components/animated-background"
+import { SimpleHero } from "@/components/simple-hero"
 
 const categories = ["All", "Renewable Energy", "Waste Management", "Green Buildings", "Carbon Reduction"]
 
@@ -80,25 +81,11 @@ export default function PortfolioPage() {
       <AnimatedBackground />
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-balance mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Our Portfolio
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground text-pretty leading-relaxed">
-              Explore our successful sustainability projects that are making a real difference across industries and
-              continents.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <SimpleHero
+        title="Our Portfolio"
+        subtitle="Explore our successful sustainability projects that make a real difference across industries and continents."
+        backgroundImage="/solar-panels-farm-renewable-energy.jpg"
+      />
 
       {/* Filter Section */}
       <section className="py-12 border-b border-border">
