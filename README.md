@@ -10,40 +10,32 @@ TerraFortis Africa (TFA) is dedicated to delivering innovative, sustainable, and
 
 ## What you’ll find on the site
 
-- Home: A quick overview of TFA’s purpose and impact, with an invitation to connect.
-- About: 
-  - “About TFA” cards describing our purpose, approach, and core areas of focus.
-  - Mission & Vision section clearly stating what drives us.
-  - Core Values as interactive cards in a smooth horizontal display.
-  - Team section introducing leadership.
-- Portfolio: Space for case studies and success stories.
-- Contact: Direct channels to reach our team (email, phone) and start a conversation.
+- **Home** – parallax hero, who we are, focus areas, services overview, Conservation Agriculture principles, mechanization, vision, how we work, who we work with.
+- **About** – who we are, vision & mission, core values, key figures and leadership team.
+- **Services** – seven service lines with deliverables, our process and FAQ.
+- **Our Work** (`/portfolio`) – filterable programme areas and our impact pathway.
+- **Contact** – contact channels, enquiry form (opens the visitor’s email app), map and FAQ.
 
-## Highlights
+## Editing content
 
-- Clear narrative: From “who we are” to “how we help,” organized for quick understanding.
-- Interactive UI: Subtle animations and responsive cards that make content engaging without getting in the way.
-- Accessible and responsive: Designed to read well on mobile and desktop, with readable contrast and typography.
-- Consistent branding: Logo, colors, and typography reflect the TerraFortis Africa identity.
+Almost all text lives in **`lib/site.ts`** – contact details, services, core values, team, stats, FAQ, programme areas and image URLs. Edit that one file and every page updates.
 
-## How to use the site
+- **Team photos:** put a square photo in `public/team/` (e.g. `robert-gensi.jpg`) and add `image: "/team/robert-gensi.jpg"` to that person in `team`. Without a photo an initials card is shown.
+- **Photos:** the site uses free Unsplash photography. Replace any URL in `images` with your own project photos (put them in `public/images/` and use `"/images/your-photo.jpg"`).
+- **Colours & fonts:** design tokens are at the top of `app/globals.css` (forest green, leaf green, harvest gold, cream). Fonts are Fraunces (headings) and Plus Jakarta Sans (body), set in `app/layout.tsx`.
 
-- Navigate via the top navigation bar:
-  - Home, About, Portfolio, Contact.
-- Explore Mission & Vision and the Core Values to understand our approach and commitments.
-- Use Contact to get in touch for partnerships, collaborations, or service inquiries.
+## Development
 
-## Editing tips
-
-- Keep About cards concise: 2–5 sentences each works best for scanning.
-- Use the Portfolio to show measurable outcomes (before/after, beneficiaries reached, environmental impact, resilience outcomes).
-- Team headshots: Square images (1:1) look best in the leadership grid.
-
-Note: If you see a “workspace root” warning on Windows, run commands from the project folder and consider removing a stray [C:\Users\colli\package-lock.json](cci:7://file:///Users/colli/package-lock.json:0:0-0:0).
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
+```
 
 ## Contact
 
-- Email: hello@terrafortisafrica.com
+- Email: terrafortisafrica@terrafortisafrica.org
+- Phone: +256 752 400 721 · Kampala, Uganda
 - Website: https://www.terrafortisafrica.org (update when deployed)
 - Social profiles: Add links here if desired.
 
